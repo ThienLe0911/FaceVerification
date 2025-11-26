@@ -1,0 +1,4 @@
+# Reference Images
+# Đặt ảnh reference (người cần verify) vào đây
+# Dùng để so sánh với query images
+# Supported formats: .jpg, .jpeg, .png, .bmp, .tiff

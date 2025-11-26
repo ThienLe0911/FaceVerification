@@ -1,0 +1,11 @@
+{
+  "timestamp": "2025-11-23T22:39:20.834039",
+  "n_images_pos": 30,
+  "n_images_neg": 995,
+  "embedding_dim": 512,
+  "seed": 42,
+  "emb_path": "data/embeddings/personA.npz",
+  "others_dir": "data/processed/others",
+  "requested_neg": 1000,
+  "actual_neg": 995
+}

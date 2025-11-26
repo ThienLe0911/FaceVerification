@@ -7,6 +7,7 @@ Designed to work with both Mac M2 and Google Colab environments.
 """
 
 import os
+import json
 import torch
 import torch.nn.functional as F
 import numpy as np
@@ -22,6 +23,33 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+def load_threshold(config_path: str = "config/threshold.json") -> float:
+    """
+    Load verification threshold from configuration file.
+    
+    Args:
+        config_path (str): Path to threshold configuration JSON file
+        
+    Returns:
+        float: Verification threshold value
+    """
+    fallback_threshold = 0.65
+    
+    try:
+        if os.path.exists(config_path):
+            with open(config_path, 'r') as f:
+                config = json.load(f)
+            threshold = config.get("personA_threshold", fallback_threshold)
+            logger.info(f"[THRESHOLD] Loaded threshold: {threshold}")
+            return threshold
+        else:
+            logger.warning(f"[THRESHOLD] Config file not found: {config_path}, using fallback: {fallback_threshold}")
+            return fallback_threshold
+    except Exception as e:
+        logger.error(f"[THRESHOLD] Error loading config: {e}, using fallback: {fallback_threshold}")
+        return fallback_threshold
+
+
 class FaceVerifier:
     """
     Face verification system using pretrained FaceNet model.
@@ -34,7 +62,7 @@ class FaceVerifier:
         self,
         device: Optional[str] = None,
         detection_threshold: float = 0.6,
-        verification_threshold: float = 0.8
+        verification_threshold: Optional[float] = None
     ):
         """
         Initialize the Face Verifier.
@@ -42,11 +70,18 @@ class FaceVerifier:
         Args:
             device (Optional[str]): Device to use ('cuda', 'cpu', 'mps'). Auto-detect if None.
             detection_threshold (float): Confidence threshold for face detection
-            verification_threshold (float): Similarity threshold for verification
+            verification_threshold (Optional[float]): Similarity threshold for verification. 
+                                                     If None, loads from config/threshold.json
         """
         self.device = self._get_device(device)
         self.detection_threshold = detection_threshold
-        self.verification_threshold = verification_threshold
+        
+        # Load verification threshold from config if not provided
+        if verification_threshold is None:
+            self.verification_threshold = load_threshold()
+        else:
+            self.verification_threshold = verification_threshold
+            logger.info(f"[THRESHOLD] Using provided threshold: {verification_threshold}")
         
         # Initialize models
         self.mtcnn = None
@@ -78,7 +113,11 @@ class FaceVerifier:
     def _load_models(self):
         """Load MTCNN and FaceNet models."""
         try:
-            # Load MTCNN for face detection
+            # For Apple Silicon MPS compatibility, use CPU for MTCNN to avoid adaptive pool errors
+            # and keep FaceNet on the specified device
+            mtcnn_device = 'cpu'  # Force CPU for MTCNN to avoid MPS issues
+            
+            # Load MTCNN for face detection (on CPU)
             self.mtcnn = MTCNN(
                 image_size=160,
                 margin=0,
@@ -86,13 +125,13 @@ class FaceVerifier:
                 thresholds=[0.6, 0.7, 0.7],  # P-Net, R-Net, O-Net thresholds
                 factor=0.709,
                 post_process=True,
-                device=self.device
+                device=mtcnn_device
             )
             
-            # Load pretrained FaceNet model
+            # Load pretrained FaceNet model (can use MPS/CUDA/CPU)
             self.facenet = InceptionResnetV1(pretrained='vggface2').eval().to(self.device)
             
-            logger.info("Successfully loaded MTCNN and FaceNet models")
+            logger.info(f"Successfully loaded MTCNN (CPU) and FaceNet ({self.device}) models")
             
         except Exception as e:
             logger.error(f"Error loading models: {str(e)}")
@@ -170,6 +209,30 @@ class FaceVerifier:
             
         except Exception as e:
             logger.error(f"Error generating embedding: {str(e)}")
+            raise
+    
+    def get_embedding_from_pil(self, pil_image: Image.Image) -> np.ndarray:
+        """
+        Generate embedding directly from PIL Image.
+        
+        Args:
+            pil_image (Image.Image): PIL Image object
+            
+        Returns:
+            np.ndarray: Face embedding vector
+        """
+        try:
+            # Use MTCNN to detect and extract face
+            face_tensor = self.mtcnn(pil_image)
+            
+            if face_tensor is None:
+                raise ValueError("No face detected in the image")
+            
+            # Generate embedding
+            return self.generate_embedding(face_tensor)
+            
+        except Exception as e:
+            logger.error(f"Error generating embedding from PIL: {str(e)}")
             raise
     
     def compute_similarity(
@@ -389,6 +452,24 @@ def quick_verify(
     verifier = FaceVerifier(verification_threshold=threshold)
     return verifier.verify_faces(image1, image2, return_similarity=True)
 
+
+def get_embedding_from_pil(pil_image: Image.Image, device: Optional[str] = None) -> np.ndarray:
+    """
+    Helper function to get embedding from PIL Image.
+    
+    Args:
+        pil_image (Image.Image): PIL Image object
+        device (Optional[str]): Device to use
+        
+    Returns:
+        np.ndarray: Face embedding vector
+    """
+    verifier = FaceVerifier(device=device)
+    return verifier.get_embedding_from_pil(pil_image)
+
+def get_embedding_from_path(path):
+    img = Image.open(path).convert('RGB')
+    return get_embedding_from_pil(img)
 
 # Example usage and testing
 if __name__ == "__main__":

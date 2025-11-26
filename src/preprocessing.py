@@ -13,6 +13,10 @@ from PIL import Image
 import matplotlib.pyplot as plt
 from typing import Tuple, Optional, Union
 import logging
+import argparse
+from pathlib import Path
+import torch
+from facenet_pytorch import MTCNN
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -313,22 +317,142 @@ def visualize_preprocessing_steps(image_path: str, size: Tuple[int, int] = (160,
         raise
 
 
+def crop_and_align_face(image_path: str, output_size: int = 160, margin: float = 0.2) -> Optional[np.ndarray]:
+    """
+    Detect, crop and align face from image using MTCNN.
+    
+    Args:
+        image_path (str): Path to input image
+        output_size (int): Output face size (default 160 for FaceNet)
+        margin (float): Margin around detected face
+        
+    Returns:
+        Optional[np.ndarray]: Cropped and aligned face or None if no face detected
+    """
+    try:
+        # Initialize MTCNN detector - use CPU to avoid MPS issues with MTCNN
+        # MPS has issues with adaptive pooling operations in MTCNN
+        device = 'cpu'  # Force CPU for MTCNN to avoid MPS adaptive pool errors
+        mtcnn = MTCNN(
+            image_size=output_size,
+            margin=int(margin * output_size),
+            min_face_size=20,
+            thresholds=[0.6, 0.7, 0.7],
+            factor=0.709,
+            post_process=True,
+            device=device
+        )
+        
+        # Load image
+        img = Image.open(image_path).convert('RGB')
+        
+        # Detect and crop face
+        face_tensor = mtcnn(img)
+        
+        if face_tensor is not None:
+            # Convert tensor back to numpy array (0-255 range)
+            face_array = face_tensor.permute(1, 2, 0).numpy()
+            face_array = ((face_array + 1) * 127.5).astype(np.uint8)
+            
+            logger.info(f"Successfully detected and cropped face from: {image_path}")
+            return face_array
+        else:
+            logger.warning(f"No face detected in: {image_path}")
+            return None
+            
+    except Exception as e:
+        logger.error(f"Error processing {image_path}: {e}")
+        return None
+
+
+def process_directory(input_dir: str, output_dir: str, size: int = 160, detector: str = 'mtcnn'):
+    """
+    Process all images in input directory and save cropped faces to output directory.
+    
+    Args:
+        input_dir (str): Input directory path
+        output_dir (str): Output directory path
+        size (int): Output face size
+        detector (str): Face detector to use (currently only 'mtcnn')
+    """
+    input_path = Path(input_dir)
+    output_path = Path(output_dir)
+    
+    if not input_path.exists():
+        logger.error(f"Input directory does not exist: {input_dir}")
+        return
+        
+    # Create output directory
+    output_path.mkdir(parents=True, exist_ok=True)
+    
+    # Supported image extensions
+    image_extensions = {'.jpg', '.jpeg', '.png', '.bmp', '.tiff'}
+    
+    # Process each subdirectory in input
+    processed_count = 0
+    failed_count = 0
+    
+    for subdir in input_path.iterdir():
+        if subdir.is_dir():
+            subdir_name = subdir.name
+            output_subdir = output_path / subdir_name
+            output_subdir.mkdir(parents=True, exist_ok=True)
+            
+            logger.info(f"Processing directory: {subdir_name}")
+            
+            # Process all images in subdirectory
+            for img_file in subdir.iterdir():
+                if img_file.suffix.lower() in image_extensions:
+                    # Crop and align face
+                    face_array = crop_and_align_face(str(img_file), output_size=size)
+                    
+                    if face_array is not None:
+                        # Save cropped face
+                        output_filename = output_subdir / f"{img_file.stem}_cropped{img_file.suffix}"
+                        cv2.imwrite(str(output_filename), cv2.cvtColor(face_array, cv2.COLOR_RGB2BGR))
+                        processed_count += 1
+                        
+                        if processed_count % 50 == 0:
+                            logger.info(f"Processed {processed_count} images...")
+                    else:
+                        failed_count += 1
+    
+    logger.info(f"Processing complete!")
+    logger.info(f"Successfully processed: {processed_count} images")
+    logger.info(f"Failed to process: {failed_count} images")
+
+
+def main():
+    """
+    Command line interface for face preprocessing.
+    """
+    parser = argparse.ArgumentParser(description='Face Detection and Preprocessing')
+    parser.add_argument('--input_dir', type=str, required=True,
+                      help='Input directory containing images')
+    parser.add_argument('--output_dir', type=str, required=True,
+                      help='Output directory for processed faces')
+    parser.add_argument('--size', type=int, default=160,
+                      help='Output face size (default: 160)')
+    parser.add_argument('--detector', type=str, default='mtcnn', choices=['mtcnn'],
+                      help='Face detector to use (default: mtcnn)')
+    
+    args = parser.parse_args()
+    
+    logger.info(f"Starting face preprocessing...")
+    logger.info(f"Input directory: {args.input_dir}")
+    logger.info(f"Output directory: {args.output_dir}")
+    logger.info(f"Face size: {args.size}x{args.size}")
+    logger.info(f"Detector: {args.detector}")
+    
+    # Process directory
+    process_directory(
+        input_dir=args.input_dir,
+        output_dir=args.output_dir,
+        size=args.size,
+        detector=args.detector
+    )
+
+
 # Example usage and testing functions
 if __name__ == "__main__":
-    # Example usage
-    print("Face Verification Preprocessing Module")
-    print("====================================")
-    
-    # Test with a sample image (you'll need to provide an actual image path)
-    # sample_path = "data/raw/sample.jpg"
-    # if os.path.exists(sample_path):
-    #     try:
-    #         processed = preprocess_image(sample_path)
-    #         print(f"Successfully preprocessed image with shape: {processed.shape}")
-    #         print(f"Pixel value range: [{processed.min():.3f}, {processed.max():.3f}]")
-    #     except Exception as e:
-    #         print(f"Error: {e}")
-    # else:
-    #     print(f"Sample image not found at: {sample_path}")
-    
-    print("Module loaded successfully. Ready to process images!")
+    main()

@@ -1,0 +1,195 @@
+{
+  "evaluation_results": [
+    {
+      "filename": "IMG_9707_cropped.png",
+      "similarity": 0.940127432346344,
+      "ground_truth": "positive",
+      "predicted": "MATCH"
+    },
+    {
+      "filename": "IMG_9702_cropped.png",
+      "similarity": 0.6994861364364624,
+      "ground_truth": "positive",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "IMG_9708_cropped.png",
+      "similarity": 0.9241770505905151,
+      "ground_truth": "positive",
+      "predicted": "MATCH"
+    },
+    {
+      "filename": "IMG_9701_cropped.png",
+      "similarity": 0.9338070154190063,
+      "ground_truth": "positive",
+      "predicted": "MATCH"
+    },
+    {
+      "filename": "IMG_9704_cropped.png",
+      "similarity": 0.8755495548248291,
+      "ground_truth": "positive",
+      "predicted": "MATCH"
+    },
+    {
+      "filename": "IMG_9703_cropped.png",
+      "similarity": 0.8787984848022461,
+      "ground_truth": "positive",
+      "predicted": "MATCH"
+    },
+    {
+      "filename": "IMG_9706_cropped.png",
+      "similarity": 0.8081945776939392,
+      "ground_truth": "positive",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "IMG_9705_cropped.png",
+      "similarity": 0.8357217311859131,
+      "ground_truth": "positive",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0022_cropped.jpg",
+      "similarity": -0.05319387838244438,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0010_cropped.jpg",
+      "similarity": -0.020330261439085007,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0005_cropped.jpg",
+      "similarity": 0.22361239790916443,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0000_cropped.jpg",
+      "similarity": -0.058872997760772705,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0015_cropped.jpg",
+      "similarity": -0.040435295552015305,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0016_cropped.jpg",
+      "similarity": -0.07506179064512253,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0003_cropped.jpg",
+      "similarity": -0.3104393780231476,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0006_cropped.jpg",
+      "similarity": -0.01841019093990326,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0013_cropped.jpg",
+      "similarity": 0.07887110114097595,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0021_cropped.jpg",
+      "similarity": 0.08118768781423569,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0014_cropped.jpg",
+      "similarity": 0.1478646695613861,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0008_cropped.jpg",
+      "similarity": 0.043279170989990234,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0001_cropped.jpg",
+      "similarity": -0.11683960258960724,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0018_cropped.jpg",
+      "similarity": 0.07991723716259003,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0004_cropped.jpg",
+      "similarity": 0.20342709124088287,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0011_cropped.jpg",
+      "similarity": -0.03269921988248825,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0020_cropped.jpg",
+      "similarity": -0.041173242032527924,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0007_cropped.jpg",
+      "similarity": -0.022742098197340965,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0002_cropped.jpg",
+      "similarity": -0.04173539578914642,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    },
+    {
+      "filename": "lfw_0017_cropped.jpg",
+      "similarity": 0.16064603626728058,
+      "ground_truth": "negative",
+      "predicted": "NOT MATCH"
+    }
+  ],
+  "performance_metrics": {
+    "total_images": 28,
+    "total_positive": 8,
+    "total_negative": 20,
+    "match_count": 5,
+    "not_match_count": 23,
+    "confusion_matrix": {
+      "true_positive": 5,
+      "true_negative": 20,
+      "false_positive": 0,
+      "false_negative": 3
+    },
+    "accuracy": 0.8928571428571429,
+    "precision": 1.0,
+    "recall": 0.625,
+    "f1_score": 0.7692307692307693,
+    "threshold_used": 0.8466
+  },
+  "configuration": {
+    "embeddings_path": "data/embeddings/personA_normalized.npz",
+    "threshold": 0.8466,
+    "device": "mps"
+  }
+}

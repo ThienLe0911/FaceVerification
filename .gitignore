@@ -52,15 +52,30 @@ Thumbs.db
 *.onnx
 *.pb
 
-# Data files
-data/raw/*.jpg
-data/raw/*.jpeg
-data/raw/*.png
-data/raw/*.bmp
-data/processed/*
+# Data files - Keep structure but ignore large files
+data/raw/**/*.jpg
+data/raw/**/*.jpeg
+data/raw/**/*.png
+data/raw/**/*.bmp
+data/processed/**/*.jpg
+data/processed/**/*.jpeg  
+data/processed/**/*.png
+data/processed/**/*.bmp
+data/embeddings/*.npz
+data/evaluation/runs/*/
+
+# Keep directory structure
 !data/raw/.gitkeep
 !data/processed/.gitkeep
-!data/pairs/.gitkeep
+!data/embeddings/.gitkeep
+!data/evaluation/.gitkeep
+!data/raw/query_images/**/.gitkeep
+
+# Results and temporary outputs
+results/
+output/
+*.csv
+*.json.bak
 
 # Logs
 *.log

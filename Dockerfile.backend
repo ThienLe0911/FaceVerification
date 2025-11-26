@@ -1,0 +1,35 @@
+# Use Python 3.9 slim as base image
+FROM python:3.9-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    libopencv-dev \
+    python3-opencv \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements and install Python dependencies
+COPY server/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy server code
+COPY server/ ./server/
+COPY src/ ./src/
+COPY models/ ./models/
+COPY data/ ./data/
+
+# Create necessary directories
+RUN mkdir -p server/uploads server/static/annotations
+
+# Expose port
+EXPOSE 8000
+
+# Set working directory to server
+WORKDIR /app/server
+
+# Run the application
+CMD ["python", "main.py"]

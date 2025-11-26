@@ -40,6 +40,13 @@ class ProjectPaths:
         self.data_processed = self.data_dir / "processed"
         self.data_pairs = self.data_dir / "pairs"
         
+        # Query images paths (bên trong raw)
+        self.query_images = self.data_raw / "query_images"
+        self.query_single_face = self.query_images / "single_face"
+        self.query_multiple_faces = self.query_images / "multiple_faces"
+        self.query_reference = self.query_images / "reference"
+        self.data_query = self.data_dir / "query_images"
+        
         self.notebooks_dir = self.project_root / "notebooks"
         self.src_dir = self.project_root / "src"
         self.experiments_dir = self.project_root / "experiments"
@@ -71,6 +78,7 @@ class ProjectPaths:
         """Create all necessary directories if they don't exist."""
         directories = [
             self.data_dir, self.data_raw, self.data_processed, self.data_pairs,
+            self.query_images, self.query_single_face, self.query_multiple_faces, self.query_reference,
             self.notebooks_dir, self.src_dir, self.experiments_dir
         ]
         
@@ -331,6 +339,132 @@ class DatasetUtils:
                     pairs.append((img1, img2, int(label)))
         
         return pairs
+
+
+class QueryImageManager:
+    """
+    Quản lý ảnh query để test face verification.
+    """
+    
+    def __init__(self, query_path: str):
+        """
+        Initialize QueryImageManager.
+        
+        Args:
+            query_path (str): Path to query_images directory
+        """
+        self.query_path = Path(query_path)
+        self.single_face_dir = self.query_path / "single_face"
+        self.multiple_faces_dir = self.query_path / "multiple_faces"
+        self.reference_dir = self.query_path / "reference"
+    
+    def get_single_face_images(self) -> List[str]:
+        """Lấy danh sách ảnh có single face."""
+        return DatasetUtils.get_image_files(str(self.single_face_dir))
+    
+    def get_multiple_faces_images(self) -> List[str]:
+        """Lấy danh sách ảnh có multiple faces."""
+        return DatasetUtils.get_image_files(str(self.multiple_faces_dir))
+    
+    def get_reference_images(self) -> List[str]:
+        """Lấy danh sách ảnh reference để so sánh."""
+        return DatasetUtils.get_image_files(str(self.reference_dir))
+    
+    def get_all_query_images(self) -> Dict[str, List[str]]:
+        """
+        Lấy tất cả query images theo category.
+        
+        Returns:
+            Dict[str, List[str]]: Dictionary với categories và danh sách files
+        """
+        return {
+            'single_face': self.get_single_face_images(),
+            'multiple_faces': self.get_multiple_faces_images(),
+            'reference': self.get_reference_images()
+        }
+    
+    def organize_images_by_person(self, directory: str) -> Dict[str, List[str]]:
+        """
+        Tổ chức ảnh theo person (dựa trên tên file).
+        
+        Args:
+            directory (str): Thư mục chứa ảnh
+            
+        Returns:
+            Dict[str, List[str]]: Dictionary với person_name và danh sách files
+        """
+        images = DatasetUtils.get_image_files(directory)
+        person_dict = {}
+        
+        for img_path in images:
+            filename = Path(img_path).stem
+            # Giả sử format: person_name_001.jpg
+            if '_' in filename:
+                person_name = '_'.join(filename.split('_')[:-1])
+            else:
+                person_name = filename
+            
+            if person_name not in person_dict:
+                person_dict[person_name] = []
+            person_dict[person_name].append(img_path)
+        
+        return person_dict
+    
+    def create_test_pairs(self, reference_dir: str) -> List[Tuple[str, str, int]]:
+        """
+        Tạo test pairs từ reference directory và query images.
+        
+        Args:
+            reference_dir (str): Thư mục chứa reference images
+            
+        Returns:
+            List[Tuple[str, str, int]]: List of (query_img, ref_img, label)
+        """
+        query_images = self.get_single_face_images()
+        reference_images = DatasetUtils.get_image_files(reference_dir)
+        
+        test_pairs = []
+        
+        for query_img in query_images:
+            query_name = self._extract_person_name(query_img)
+            
+            for ref_img in reference_images:
+                ref_name = self._extract_person_name(ref_img)
+                
+                # Label: 1 if same person, 0 if different
+                label = 1 if query_name == ref_name else 0
+                test_pairs.append((query_img, ref_img, label))
+        
+        return test_pairs
+    
+    def _extract_person_name(self, img_path: str) -> str:
+        """Extract person name từ file path."""
+        filename = Path(img_path).stem
+        if '_' in filename:
+            return '_'.join(filename.split('_')[:-1])
+        return filename
+    
+    def get_statistics(self) -> Dict[str, Any]:
+        """
+        Lấy thống kê về query images.
+        
+        Returns:
+            Dict[str, Any]: Statistics về số lượng images
+        """
+        all_images = self.get_all_query_images()
+        
+        stats = {
+            'total_images': sum(len(imgs) for imgs in all_images.values()),
+            'by_category': {cat: len(imgs) for cat, imgs in all_images.items()},
+            'directory_info': {
+                'single_face': self.single_face_dir.exists(),
+                'multiple_faces': self.multiple_faces_dir.exists(),
+                'challenging': self.challenging_dir.exists(),
+                'reference_pairs': self.reference_pairs_dir.exists()
+            }
+        }
+        
+        return stats
 
 
 class VisualizationUtils:

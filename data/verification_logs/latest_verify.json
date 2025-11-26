@@ -1,0 +1,18 @@
+{
+  "image_path": "data/processed/query_images/positive/IMG_9701_cropped.png",
+  "filename": "IMG_9701_cropped.png",
+  "similarity": 0.9338070154190063,
+  "threshold_used": 0.6572,
+  "prediction": "MATCH",
+  "metadata": {
+    "timestamp": "2025-11-25T22:59:26.070366",
+    "threshold_used": 0.6572,
+    "embedding_path": "data/embeddings/personA_normalized.npz",
+    "model": "FaceNet vggface2",
+    "device": "mps",
+    "query_image": "IMG_9701_cropped.png"
+  },
+  "timestamp": "2025-11-25T22:59:26.070403",
+  "embeddings_path": "data/embeddings/personA_normalized.npz",
+  "device": "mps"
+}

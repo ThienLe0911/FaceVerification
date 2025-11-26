@@ -1,0 +1,342 @@
+[
+  {
+    "image": "IMG_8018 2.jpg",
+    "faces": [
+      {
+        "similarity": 0.18033388257026672,
+        "max_similarity": 0.290162593126297,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9605_cropped.jpg",
+        "confidence": 0.9999706745147705,
+        "bbox": [
+          1152.42431640625,
+          1400.4766845703125,
+          1929.2928466796875,
+          2396.62158203125
+        ]
+      },
+      {
+        "similarity": 0.8491072654724121,
+        "max_similarity": 0.8789708614349365,
+        "predicted": "MATCH",
+        "best_match_filename": "IMG_9606_cropped.jpg",
+        "confidence": 0.9994646906852722,
+        "bbox": [
+          499.6778259277344,
+          643.9280395507812,
+          1260.3848876953125,
+          1613.1376953125
+        ]
+      },
+      {
+        "similarity": 0.5078840255737305,
+        "max_similarity": 0.5657085180282593,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9571_cropped.png",
+        "confidence": 0.999992847442627,
+        "bbox": [
+          344.2822265625,
+          1402.18603515625,
+          430.1340026855469,
+          1505.46826171875
+        ]
+      },
+      {
+        "similarity": -0.009647184982895851,
+        "max_similarity": 0.08861915022134781,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9587_cropped.png",
+        "confidence": 0.7665301561355591,
+        "bbox": [
+          1997.3160400390625,
+          1476.417236328125,
+          2026.485595703125,
+          1511.1416015625
+        ]
+      },
+      {
+        "similarity": 0.06668145954608917,
+        "max_similarity": 0.20414471626281738,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9581_cropped.png",
+        "confidence": 0.8335577845573425,
+        "bbox": [
+          2044.8599853515625,
+          1422.4639892578125,
+          2067.851806640625,
+          1448.988525390625
+        ]
+      }
+    ],
+    "detected_count": 5,
+    "timestamp": "2025-11-26T00:56:24.475227",
+    "processing_time": 2.104,
+    "threshold": 0.6572
+  },
+  {
+    "image": "IMG_8056 2.jpg",
+    "faces": [
+      {
+        "similarity": 0.02988026849925518,
+        "max_similarity": 0.1514672040939331,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9602_cropped.jpg",
+        "confidence": 0.9998114705085754,
+        "bbox": [
+          1219.901611328125,
+          1128.10107421875,
+          1940.6453857421875,
+          2066.69873046875
+        ]
+      },
+      {
+        "similarity": 0.8606832027435303,
+        "max_similarity": 0.8509926199913025,
+        "predicted": "MATCH",
+        "best_match_filename": "IMG_9584_cropped.png",
+        "confidence": 0.9999483823776245,
+        "bbox": [
+          288.51312255859375,
+          567.6700439453125,
+          961.8195190429688,
+          1459.9556884765625
+        ]
+      },
+      {
+        "similarity": -0.020279215648770332,
+        "max_similarity": 0.11736376583576202,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9581_cropped.png",
+        "confidence": 0.8043044805526733,
+        "bbox": [
+          1251.77978515625,
+          2855.874755859375,
+          1267.82958984375,
+          2877.93505859375
+        ]
+      }
+    ],
+    "detected_count": 3,
+    "timestamp": "2025-11-26T00:56:25.610352",
+    "processing_time": 1.071,
+    "threshold": 0.6572
+  },
+  {
+    "image": "IMG_8018.jpg",
+    "faces": [
+      {
+        "similarity": 0.18033388257026672,
+        "max_similarity": 0.290162593126297,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9605_cropped.jpg",
+        "confidence": 0.9999706745147705,
+        "bbox": [
+          1152.42431640625,
+          1400.4766845703125,
+          1929.2928466796875,
+          2396.62158203125
+        ]
+      },
+      {
+        "similarity": 0.8491072654724121,
+        "max_similarity": 0.8789708614349365,
+        "predicted": "MATCH",
+        "best_match_filename": "IMG_9606_cropped.jpg",
+        "confidence": 0.9994646906852722,
+        "bbox": [
+          499.6778259277344,
+          643.9280395507812,
+          1260.3848876953125,
+          1613.1376953125
+        ]
+      },
+      {
+        "similarity": 0.5078840255737305,
+        "max_similarity": 0.5657085180282593,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9571_cropped.png",
+        "confidence": 0.999992847442627,
+        "bbox": [
+          344.2822265625,
+          1402.18603515625,
+          430.1340026855469,
+          1505.46826171875
+        ]
+      },
+      {
+        "similarity": -0.009647184982895851,
+        "max_similarity": 0.08861915022134781,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9587_cropped.png",
+        "confidence": 0.7665301561355591,
+        "bbox": [
+          1997.3160400390625,
+          1476.417236328125,
+          2026.485595703125,
+          1511.1416015625
+        ]
+      },
+      {
+        "similarity": 0.06668145954608917,
+        "max_similarity": 0.20414471626281738,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9581_cropped.png",
+        "confidence": 0.8335577845573425,
+        "bbox": [
+          2044.8599853515625,
+          1422.4639892578125,
+          2067.851806640625,
+          1448.988525390625
+        ]
+      }
+    ],
+    "detected_count": 5,
+    "timestamp": "2025-11-26T00:56:26.758416",
+    "processing_time": 1.1,
+    "threshold": 0.6572
+  },
+  {
+    "image": "IMG_8051.jpg",
+    "faces": [
+      {
+        "similarity": 0.20077835023403168,
+        "max_similarity": 0.3327520489692688,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9602_cropped.jpg",
+        "confidence": 0.9999865293502808,
+        "bbox": [
+          1251.364501953125,
+          1037.883056640625,
+          2005.42041015625,
+          2024.7322998046875
+        ]
+      },
+      {
+        "similarity": 0.8954952359199524,
+        "max_similarity": 0.9386429786682129,
+        "predicted": "MATCH",
+        "best_match_filename": "IMG_9606_cropped.jpg",
+        "confidence": 0.9998733997344971,
+        "bbox": [
+          440.0465393066406,
+          576.70849609375,
+          1054.490234375,
+          1349.59765625
+        ]
+      },
+      {
+        "similarity": 0.09438861906528473,
+        "max_similarity": 0.219114750623703,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9587_cropped.png",
+        "confidence": 0.7637014389038086,
+        "bbox": [
+          1818.033935546875,
+          2781.096923828125,
+          1840.6533203125,
+          2810.240966796875
+        ]
+      }
+    ],
+    "detected_count": 3,
+    "timestamp": "2025-11-26T00:56:27.765983",
+    "processing_time": 0.951,
+    "threshold": 0.6572
+  },
+  {
+    "image": "IMG_8056.jpg",
+    "faces": [
+      {
+        "similarity": 0.02988026849925518,
+        "max_similarity": 0.1514672040939331,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9602_cropped.jpg",
+        "confidence": 0.9998114705085754,
+        "bbox": [
+          1219.901611328125,
+          1128.10107421875,
+          1940.6453857421875,
+          2066.69873046875
+        ]
+      },
+      {
+        "similarity": 0.8606832027435303,
+        "max_similarity": 0.8509926199913025,
+        "predicted": "MATCH",
+        "best_match_filename": "IMG_9584_cropped.png",
+        "confidence": 0.9999483823776245,
+        "bbox": [
+          288.51312255859375,
+          567.6700439453125,
+          961.8195190429688,
+          1459.9556884765625
+        ]
+      },
+      {
+        "similarity": -0.020279215648770332,
+        "max_similarity": 0.11736376583576202,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9581_cropped.png",
+        "confidence": 0.8043044805526733,
+        "bbox": [
+          1251.77978515625,
+          2855.874755859375,
+          1267.82958984375,
+          2877.93505859375
+        ]
+      }
+    ],
+    "detected_count": 3,
+    "timestamp": "2025-11-26T00:56:28.758074",
+    "processing_time": 0.943,
+    "threshold": 0.6572
+  },
+  {
+    "image": "IMG_8051 2.jpg",
+    "faces": [
+      {
+        "similarity": 0.20077835023403168,
+        "max_similarity": 0.3327520489692688,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9602_cropped.jpg",
+        "confidence": 0.9999865293502808,
+        "bbox": [
+          1251.364501953125,
+          1037.883056640625,
+          2005.42041015625,
+          2024.7322998046875
+        ]
+      },
+      {
+        "similarity": 0.8954952359199524,
+        "max_similarity": 0.9386429786682129,
+        "predicted": "MATCH",
+        "best_match_filename": "IMG_9606_cropped.jpg",
+        "confidence": 0.9998733997344971,
+        "bbox": [
+          440.0465393066406,
+          576.70849609375,
+          1054.490234375,
+          1349.59765625
+        ]
+      },
+      {
+        "similarity": 0.09438861906528473,
+        "max_similarity": 0.219114750623703,
+        "predicted": "NOT MATCH",
+        "best_match_filename": "IMG_9587_cropped.png",
+        "confidence": 0.7637014389038086,
+        "bbox": [
+          1818.033935546875,
+          2781.096923828125,
+          1840.6533203125,
+          2810.240966796875
+        ]
+      }
+    ],
+    "detected_count": 3,
+    "timestamp": "2025-11-26T00:56:29.691147",
+    "processing_time": 0.885,
+    "threshold": 0.6572
+  }
+]

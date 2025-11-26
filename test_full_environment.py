@@ -101,6 +101,10 @@ def test_environment():
         'data/raw',
         'data/processed', 
         'data/pairs',
+        'data/raw/query_images',
+        'data/raw/query_images/single_face',
+        'data/raw/query_images/multiple_faces',
+        'data/raw/query_images/reference',
         'notebooks',
         'src',
         'experiments'
